@@ -1,0 +1,15 @@
+artifact_uri: file:///home/quentin/E3fracture/mlruns/0/588cdb3f2bbb4cbcbe821c6f070c7584/artifacts
+end_time: 1747140580335
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 588cdb3f2bbb4cbcbe821c6f070c7584
+run_name: chill-duck-569
+run_uuid: 588cdb3f2bbb4cbcbe821c6f070c7584
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747140580326
+status: 4
+tags: []
+user_id: quentin
