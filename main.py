@@ -25,15 +25,13 @@ class PatientData(BaseModel):
 
 @app.post("/predict")
 def predict(data: PatientData):
-    # 🔁 Convertir en DataFrame avec noms de colonnes
-    input_dict = data.dict()
-    input_df = pd.DataFrame([input_dict])  # ✅ important : garde les noms des colonnes
-
-    # Prédiction
-    prediction = model.predict(input_df)[0]
-    probability = model.predict_proba(input_df)[0][1]  # proba que HeartDisease = 1
-
-    return {
-        "prediction": int(prediction),
-        "probability_1": round(float(probability), 4)
-    }
+    try:
+        input_df = pd.DataFrame([data.dict()])
+        prediction = model.predict(input_df)[0]
+        probability = model.predict_proba(input_df)[0][1]
+        return {
+            "prediction": int(prediction),
+            "probability_1": round(float(probability), 4)
+        }
+    except Exception as e:
+        return {"error": str(e)}
