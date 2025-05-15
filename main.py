@@ -23,7 +23,7 @@ class PatientData(BaseModel):
     Oldpeak: float
     ST_Slope: str
 
-@app.route('/predict', methods=['POST'])
+@app.post("/predict")
 def predict(data: PatientData):
     # 🔁 Convertir en DataFrame avec noms de colonnes
     input_dict = data.dict()
