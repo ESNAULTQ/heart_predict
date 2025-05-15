@@ -1,15 +1,13 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import joblib
 import pandas as pd
+import mlflow.sklearn
 
-# Charger le pipeline (OneHotEncoder + LogisticRegression)
-model = joblib.load("logistic_pipeline.pkl")
+# Charger le modèle depuis MLflow (exemple avec modèle local)
+model = mlflow.sklearn.load_model("model")  # ← remplace "model" si chemin différent
 
-# Créer l'app
 app = FastAPI()
 
-# Définir le modèle de données attendu
 class PatientData(BaseModel):
     Age: int
     Sex: str
