@@ -1,13 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import joblib
 import pandas as pd
-import mlflow.sklearn
 
-# Charger le modèle depuis MLflow (exemple avec modèle local)
-model = mlflow.sklearn.load_model("model")  # ← remplace "model" si chemin différent
+# Charger le pipeline (OneHotEncoder + LogisticRegression)
+model = joblib.load("logistic_pipeline.pkl")
 
+# Créer l'app
 app = FastAPI()
 
+# Définir le modèle de données attendu
 class PatientData(BaseModel):
     Age: int
     Sex: str
@@ -23,13 +25,15 @@ class PatientData(BaseModel):
 
 @app.post("/predict")
 def predict(data: PatientData):
-    try:
-        input_df = pd.DataFrame([data.dict()])
-        prediction = model.predict(input_df)[0]
-        probability = model.predict_proba(input_df)[0][1]
-        return {
-            "prediction": int(prediction),
-            "probability_1": round(float(probability), 4)
-        }
-    except Exception as e:
-        return {"error": str(e)}
+    # 🔁 Convertir en DataFrame avec noms de colonnes
+    input_dict = data.dict()
+    input_df = pd.DataFrame([input_dict])  # ✅ important : garde les noms des colonnes
+
+    # Prédiction
+    prediction = model.predict(input_df)[0]
+    probability = model.predict_proba(input_df)[0][1]  # proba que HeartDisease = 1
+
+    return {
+        "prediction": int(prediction),
+        "probability_1": round(float(probability), 4)
+    }
