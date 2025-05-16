@@ -1,7 +1,7 @@
 import requests
 
 # L'URL de ton API (modifie le port si différent)
-url = "http://localhost:8000/predict"
+url = "https://heart-predict-1.onrender.com/predict"
 
 # Données à envoyer (elles doivent exactement correspondre au modèle)
 data = {
